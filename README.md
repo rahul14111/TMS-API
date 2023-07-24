@@ -1,2 +1,2 @@
 # TimesheetRepo
-Timesheet management
+Timesheet management System in ASP.Net Core.
