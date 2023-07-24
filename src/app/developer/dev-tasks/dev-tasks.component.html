@@ -1,0 +1,84 @@
+<div class="card">
+    <div class="card-header"><h3>My Assigned Task</h3></div>
+    <div class="card-body table-responsive">
+        <table class="table table-bordered ">
+            <thead>
+                <tr class="table-primary ">
+                    <td>Project</td>
+                    <td>Assigned To</td>
+                    <td>Due Date</td>
+                    <td>Task</td>
+                    <td>Task Hour</td>
+                    <td>Task Status</td>
+                    <td>Created By</td>
+                    <td>Created On</td>
+                    <td>Actions</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of mytaskList">
+                    <td>{{projectList[item.projectId]}}</td>
+                    <!-- <td>{{item.employeeId}}</td> -->
+                    <td>{{userList[item.employeeId]}}</td>
+                    <td>{{item.dueDate |date}}</td>
+                    <td>{{taskList[item.taskId]}}</td>
+                    <td>{{taskHour[item.taskId]}} Hr</td>
+                    <ng-container>
+                        <td class="h6" [class.text-danger] = "timeSheetStatus[item.taskStatus] == 'Rejected'" 
+                            [class.text-success] = "timeSheetStatus[item.taskStatus] == 'Completed'"
+                            [class.text-primary] = "timeSheetStatus[item.taskStatus] == 'Pending'"
+                            [class.text-warning] = "timeSheetStatus[item.taskStatus] == 'InProgress'">
+                            {{timeSheetStatus[item.taskStatus]}}</td>
+                    </ng-container>
+                    <td>{{userList[item.createdBy]}}</td>
+                    <td>{{item.createdOn | date}}</td>
+                    <td>
+                        <button class="btn btn-success" (click)="open(EditTaskAssign,item.id)" value={{item.id}}>Edit Status</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+
+<!-- Change Status of Assigned Tasks -->
+<ng-template #EditTaskAssign let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title">Edit Task</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <form #EditTaskAssign="ngForm" (submit)=" modal.dismiss()">
+        <div class="modal-body">
+            <div>
+                <input [(ngModel)]=SingleTaskAssignment.id name="id" type="hidden" />
+                <div class="">
+                    <label class="small">Task :</label>
+                    <h2 class=" font-weight-bold">{{taskList[SingleTaskAssignment.taskId]}}</h2>
+                    
+                    <input name="projectId" type="hidden"  [(ngModel)]=SingleTaskAssignment.projectId  />
+                    <input name="createdBy" type="hidden"   [(ngModel)]=SingleTaskAssignment.createdBy />
+                    <input name="createdOn" type="hidden"   [(ngModel)]=SingleTaskAssignment.createdOn />
+                    <input name="employeeId" type="hidden"  [(ngModel)]=SingleTaskAssignment.employeeId />
+                    <input name="taskId" type="hidden" [(ngModel)]=SingleTaskAssignment.taskId />
+                    <input name="dueDate" type="hidden"   [(ngModel)]=SingleTaskAssignment.dueDate/>
+                </div>
+                <div class="form-Group">
+                    <label class="small">Task Status</label>
+                    <select name="taskStatus" class="form-control"  [(ngModel)]=SingleTaskAssignment.taskStatus >
+                        <ng-container *ngFor="let item of timeSheetStatus | keyvalue">
+                            <option   *ngIf="item.key!='0'" value={{item.key}}>{{item.value}}</option>
+                        </ng-container>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer d-flex justify-content-between">
+            <button type="submit"  class="btn btn-success" (click)="EditTaskAssignment(EditTaskAssign.value)">Save Task</button>
+            <button type="button" class="btn btn-secondary" (click)="modal.close('Close click')">Close</button>
+        </div>
+    </form>
+</ng-template>

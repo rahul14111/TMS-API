@@ -1,0 +1,20 @@
+<div class="py-2" *ngIf="checkLogin() ">
+  <nav class="navbar navbar-expand-lg justify-content-between">
+      <label  class="rounded-pill btn btn-primary  shadow p-2" *ngIf="checkRole()">
+        Role : <span class="rounded-pill  bg-light text-dark px-2 py-1">{{role}}</span>
+      </label>
+      <div class="d-flex me-2">
+        <div ngbDropdown class="d-inline-block">
+          <button type="button" class="rounded-pill btn btn-light text-dark" id="dropdownBasic1" ngbDropdownToggle *ngIf="userName()">
+            <i class="fa-solid fa-user"></i>  {{currentUserName}}
+          </button>
+          <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+            <button ngbDropdownItem routerLink="/updateProfile"><i class="fa-solid fa-user-pen"></i> Edit Profile</button>
+            <button ngbDropdownItem routerLink="/changePassword"><i class="fa-solid fa-unlock"></i> Change Password</button>
+            <button ngbDropdownItem (click)="logout()"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
+          </div>
+        </div>
+
+        </div>
+  </nav>
+</div>

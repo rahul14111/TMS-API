@@ -1,0 +1,271 @@
+
+    <div class="row justify-content-center">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <p class="h3 card-title text-center text-uppercase text-dark">Add User</p>
+                    <hr />
+                    <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
+                        <div class="row">
+                            <div class=" col-md-6">
+                                <label class="form-label text-uppercase fw-bold">Select Role</label>
+                                <select class="form-select" aria-label="Default select example" formControlName="role"
+                                    [class.is-invalid]="myForm.controls['role'].invalid && (myForm.controls['role'].dirty || myForm.controls['role'].touched)"
+                                    required>
+                                    <option value="" selected disabled>Select Role</option>
+                                    <option value="Managers">Manager</option>
+                                    <option value="Developers">Developer</option>
+                                </select>
+                                <div *ngIf="myForm.controls['role'].invalid && myForm.controls['role'].touched">
+                                    <div *ngIf="myForm.controls['role'].errors?.['required']" class="text-danger">Role
+                                        is Required.</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="form-group col-md-6">
+                                <label class="form-label text-uppercase fw-bold">FirstName</label>
+                                <input type="text" class="form-control" formControlName="firstName"
+                                    [class.is-invalid]="myForm.controls['firstName'].invalid && (myForm.controls['firstName'].dirty || myForm.controls['firstName'].touched)"
+                                    required pattern>
+                                <div
+                                    *ngIf="myForm.controls['firstName'].invalid && myForm.controls['firstName'].touched">
+                                    <div *ngIf="myForm.controls['firstName'].errors?.['required']" class="text-danger">
+                                        First Name is Required</div>
+                                    <div *ngIf="myForm.controls['firstName'].errors?.['pattern']" class="text-danger">
+                                        Only Characters are allowed.</div>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="form-label text-uppercase fw-bold" for="LastName">LastName</label>
+                                <input type="text" class="form-control" id="LastName" formControlName="lastName"
+                                    [class.is-invalid]="myForm.controls['lastName'].invalid && (myForm.controls['lastName'].dirty || myForm.controls['lastName'].touched)"
+                                    required pattern>
+                                <div *ngIf="myForm.controls['lastName'].invalid && myForm.controls['lastName'].touched">
+                                    <div *ngIf="myForm.controls['lastName'].errors?.['required']" class="text-danger">
+                                        Last Name is Required</div>
+                                    <div *ngIf="myForm.controls['lastName'].errors?.['pattern']" class="text-danger">
+                                        Only Characters are allowed.</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="form-group col-md-6">
+                                <label class="form-label text-uppercase fw-bold">UserName</label>
+                                <input type="text" class="form-control" formControlName="userName"
+                                    [class.is-invalid]="myForm.controls['userName'].invalid && (myForm.controls['userName'].dirty || myForm.controls['userName'].touched)"
+                                    required pattern>
+                                <div *ngIf="myForm.controls['userName'].invalid && myForm.controls['userName'].touched">
+                                    <div *ngIf="myForm.controls['userName'].errors?.['required']" class="text-danger">
+                                        User Name is Required</div>
+                                    <div *ngIf="myForm.controls['userName'].errors?.['pattern']" class="text-danger">
+                                        <ul>
+                                            <li>Only Characters are Not allowed.</li>
+                                            <li>Please enter some numberic or underscore.</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="form-label text-uppercase fw-bold">Email</label>
+                                <input type="text" class="form-control" formControlName="email"
+                                    [class.is-invalid]="myForm.controls['email'].invalid && (myForm.controls['email'].dirty || myForm.controls['email'].touched)"
+                                    required email pattern>
+                                <div *ngIf="myForm.controls['email'].invalid && myForm.controls['email'].touched">
+                                    <div *ngIf="myForm.controls['email'].errors?.['required']" class="text-danger">Email
+                                        is Required.</div>
+                                    <div *ngIf="myForm.controls['email'].errors?.['email'] || myForm.controls['email'].errors?.['pattern'] "
+                                        class="text-danger">Please
+                                        Enter Valid Email</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="form-group col-md-6">
+                                <label class="form-label text-uppercase fw-bold">Address-1</label>
+                                <input type="text" class="form-control" formControlName="address1"
+                                    [class.is-invalid]="myForm.controls['address1'].invalid && (myForm.controls['address1'].dirty || myForm.controls['address1'].touched)"
+                                    required pattern>
+                                <div *ngIf="myForm.controls['address1'].invalid && myForm.controls['address1'].touched">
+                                    <div *ngIf="myForm.controls['address1'].errors?.['required']" class="text-danger">
+                                        Address-1 is Required.</div>
+                                    <div *ngIf="myForm.controls['address1'].errors?.['pattern']" class="text-danger">
+                                        Please Enter Valid Address 1.</div>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="form-label text-uppercase fw-bold">Address-2</label>
+                                <input type="text" class="form-control" formControlName="address2"
+                                    [class.is-invalid]="myForm.controls['address1'].invalid && (myForm.controls['address2'].dirty || myForm.controls['address2'].touched)"
+                                    required pattern>
+                                <div *ngIf="myForm.controls['address1'].invalid && myForm.controls['address2'].touched">
+                                    <div *ngIf="myForm.controls['address2'].errors?.['required']" class="text-danger">
+                                        Address-2 is Required.</div>
+                                    <div *ngIf="myForm.controls['address2'].errors?.['pattern']" class="text-danger">
+                                        Please Enter Valid Address-2.</div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="row mt-3">
+                            <div class="form-group col-md-6">
+                                <label class="form-label text-uppercase fw-bold">Mobile Number</label>
+                                <input type="text" class="form-control" formControlName="mobileNo"
+                                    [class.is-invalid]="myForm.controls['mobileNo'].invalid && (myForm.controls['mobileNo'].dirty || myForm.controls['mobileNo'].touched)"
+                                    required pattern maxlength minlength>
+                                <div *ngIf="myForm.controls['mobileNo'].invalid && myForm.controls['mobileNo'].touched">
+                                    <div *ngIf="myForm.controls['mobileNo'].errors?.['required']" class="text-danger">
+                                        Mobile Number is Required.</div>
+                                    <div *ngIf="myForm.controls['mobileNo'].errors?.['pattern']" class="text-danger">
+                                        Please Enter Only Digit.</div>
+                                    <div *ngIf="myForm.controls['mobileNo'].errors?.['maxlength'] || myForm.controls['mobileNo'].errors?.['minlength']"
+                                        class="text-danger">Please Enter Only 10 Digit.</div>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="form-label text-uppercase fw-bold">Postal Code</label>
+                                <input type="text" class="form-control" formControlName="postalCode"
+                                    [class.is-invalid]="myForm.controls['postalCode'].invalid && (myForm.controls['postalCode'].dirty || myForm.controls['postalCode'].touched)"
+                                    required >
+                                <div
+                                    *ngIf="myForm.controls['postalCode'].invalid && myForm.controls['postalCode'].touched">
+                                    <div *ngIf="myForm.controls['postalCode'].errors?.['required']" class="text-danger">
+                                        PostalCode is Required.</div>
+                                    <div *ngIf="myForm.controls['postalCode'].errors?.['pattern']" class="text-danger">
+                                        Please Enter Only Digit.</div>
+                                    <div *ngIf="myForm.controls['postalCode'].errors?.['maxlength'] || myForm.controls['postalCode'].errors?.['minlength']"
+                                        class="text-danger">Please Enter Only 6 Digit.</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="col-md-6">
+                                <label class="form-label text-uppercase fw-bold">City</label>
+                                <select class="form-select" aria-label="Default select example" formControlName="city"
+                                    [class.is-invalid]="myForm.controls['city'].invalid && (myForm.controls['city'].dirty || myForm.controls['city'].touched)"
+                                    required>
+                                    <option value="" selected disabled>Select City</option>
+                                    <option *ngFor="let city of cities" [value]="city">{{city}}</option>
+                                </select>
+                                <div *ngIf="myForm.controls['city'].invalid && myForm.controls['city'].touched">
+                                    <div *ngIf="myForm.controls['city'].errors?.['required']" class="text-danger">City
+                                        is Required.</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label text-uppercase fw-bold">State</label>
+                                <select class="form-select" aria-label="Default select example" formControlName="state"
+                                    [class.is-invalid]="myForm.controls['state'].invalid && (myForm.controls['state'].dirty || myForm.controls['state'].touched)"
+                                    required>
+                                    <option value="" selected disabled>Select State</option>
+                                    <option *ngFor="let state of states" [value]="state">{{state}}</option>
+                                </select>
+                                <div *ngIf="myForm.controls['state'].invalid && myForm.controls['state'].touched">
+                                    <div *ngIf="myForm.controls['state'].errors?.['required']" class="text-danger">State
+                                        is Required.</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="col-md-6">
+                                <label class="form-label text-uppercase fw-bold">Country</label>
+                                <select class="form-select" aria-label="Default select example"
+                                    formControlName="country"
+                                    [class.is-invalid]="myForm.controls['country'].invalid && (myForm.controls['country'].dirty || myForm.controls['country'].touched)"
+                                    required>
+                                    <option value="" selected disabled>Select Country</option>
+                                    <option *ngFor="let country of countries" [value]="country">{{country}}</option>
+                                </select>
+                                <div *ngIf="myForm.controls['country'].invalid && myForm.controls['country'].touched">
+                                    <div *ngIf="myForm.controls['country'].errors?.['required']" class="text-danger">
+                                        Country is Required.</div>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="form-label text-uppercase fw-bold">Date Of Birth</label>
+                                <input type="date" class="form-control" formControlName="dateOfBirth"
+                                    [class.is-invalid]="myForm.controls['dateOfBirth'].invalid && (myForm.controls['dateOfBirth'].dirty || myForm.controls['dateOfBirth'].touched)"
+                                    required>
+                                <div
+                                    *ngIf="myForm.controls['dateOfBirth'].invalid && myForm.controls['dateOfBirth'].touched">
+                                    <div *ngIf="myForm.controls['dateOfBirth'].errors?.['required']"
+                                        class="text-danger">
+                                        Date of Birth is Required.</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row  mt-3">
+                            <div class="form-group col-md-6">
+                                <label class="form-label text-uppercase fw-bold">Gender</label><br />
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="gender" id="male" value="male"
+                                        formControlName="gender">
+                                    <label class="form-check-label" for="male">Male</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="gender" id="female"
+                                        value="female" formControlName="gender">
+                                    <label class="form-check-label" for="female">Female</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="gender" id="others"
+                                        value="others" formControlName="gender">
+                                    <label class="form-check-label" for="others">Other</label>
+                                </div>
+                                <div *ngIf="myForm.controls['gender'].invalid && myForm.controls['gender'].touched"
+                                    class="text-danger">
+                                    <div *ngIf="myForm.controls['gender'].errors?.['required']">Please Select Gender.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="form-label text-uppercase fw-bold">Manager Name</label>
+                                <select class="form-select" aria-label="Default select example"
+                                    formControlName="managerId"
+                                    [class.is-invalid]="myForm.controls['managerId'].invalid && (myForm.controls['managerId'].dirty || myForm.controls['managerId'].touched)"
+                                    required>
+                                    <option value="" selected disabled>Select Name</option>
+                                    <option *ngFor="let name of lists" [value]="name.id">{{name.firstName + " " +
+                                        name.lastName }}</option>
+                                </select>
+                                <div
+                                    *ngIf="myForm.controls['managerId'].invalid && myForm.controls['managerId'].touched">
+                                    <div *ngIf="myForm.controls['managerId'].errors?.['required']" class="text-danger">
+                                        Manager Name is required.</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row  mt-3 ">
+                            <div class="form-group col-md-6">
+                                <label class="form-label text-uppercase fw-bold">Password</label>
+                                <input type="password" class="form-control" formControlName="password"
+                                    [class.is-invalid]="myForm.controls['password'].invalid && (myForm.controls['password'].dirty || myForm.controls['password'].touched)"
+                                    required pattern>
+                                <div *ngIf="myForm.controls['password'].invalid && myForm.controls['password'].touched">
+                                    <div *ngIf="myForm.controls['password'].errors?.['required']" class="text-danger">
+                                        Password field is required.</div>
+                                    <div *ngIf="myForm.controls['password'].errors?.['pattern']" class="text-danger">
+                                        <ul>
+                                            <li>At least 8 characters long.</li>
+                                            <li>Contains at least one lowercase letter.</li>
+                                            <li>Contains at least one uppercase letter.</li>
+                                            <li>Contains at least one digit.</li>
+                                            <li>Contains at least one special character.</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-center mt-3">
+                            <button type="submit" class="btn btn-outline-primary text-uppercase"
+                                [disabled]="myForm.invalid">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>

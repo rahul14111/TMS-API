@@ -1,0 +1,285 @@
+<div class="container bg-light right-0 card">
+    <div class="card-header d-flex justify-content-between">
+        <div><h2>Add Time Sheet</h2></div>
+        <div>
+            <a class="btn btn-info" href="/TimeSheetCreate#ListOfTimeSheets">List Of Time Sheets</a>
+        </div>
+    </div>
+    <div class="card-body">
+        <form [formGroup]="timeSheetForm" (ngSubmit)="onSubmit(timeSheetForm.value)" class="row">
+            <div class="col-6 form-Group">  
+                <label>From Date:</label>
+                <input class="form-control" type="datetime-local" name="fromDate" formControlName="fromDate">
+                <div *ngIf="timeSheetForm.controls['fromDate'].errors && timeSheetForm.controls['fromDate'].touched">
+                    <div class="text-danger" *ngIf="timeSheetForm.controls['fromDate'].errors['required']">From Date is required</div>
+                </div>
+            </div>
+            <input formControlName="CreatedOn" type="hidden" name="CreatedOn" > 
+            <div class="col-6 form-Group">
+                <label >To Date:</label>
+                <input class="form-control" type="datetime-local" id="toDate" formControlName="toDate">
+                <div class="text-danger" *ngIf="timeSheetForm.controls['toDate'].errors && timeSheetForm.controls['toDate'].touched">
+                    <div *ngIf="timeSheetForm.controls['toDate'].errors['required']">To Date is required</div>
+                </div>
+            </div>
+            <!--<div class="col-6 form-Group">
+                <label>Total Hours:</label>
+                <input class="form-control" type="number" id="totalHours" formControlName="totalHours">
+                <div *ngIf="timeSheetForm.controls['totalHours'].errors && timeSheetForm.controls['totalHours'].touched">
+                    <div class="text-danger" *ngIf="timeSheetForm.controls['totalHours'].errors['required']">Enter Total Hours </div>
+                </div>
+            </div>-->
+            <div class="col-6 form-Group">
+                <label>Status</label>
+                <select formControlName="TimeSheetStatus" name="TimeSheetStatus" class="form-control" required>
+                    <option value="">Select Status</option>
+                    <ng-container *ngFor="let status of timeSheetStatus|keyvalue" >
+                        <option *ngIf="status.key=='1'" value={{status.key}}>{{status.value}}</option>
+                    </ng-container>
+                </select>
+                <div class="text-danger" *ngIf="timeSheetForm.controls['TimeSheetStatus'].errors && timeSheetForm.controls['TimeSheetStatus'].touched">
+                    <div *ngIf="timeSheetForm.controls['TimeSheetStatus'].errors['required']">Select TimeSheet Status</div>
+                </div>
+            </div>
+            <div class="col-12 form-Group">
+                <label>Comments:</label>
+                <textarea class="form-control" id="comments" formControlName="comments" maxlength="255"></textarea>
+                <div class="text-danger" *ngIf="timeSheetForm.controls['comments'].errors && timeSheetForm.controls['comments'].touched">
+                    <div *ngIf="timeSheetForm.controls['comments'].errors['required']">Atleast 1 characters & Maximum 255 characters allowed</div>
+                </div>
+            </div>
+            <hr class="mt-3"/>
+            <div formArrayName="TimeSheetDetails" class="card">
+                <div class="card-header d-flex justify-content-between"><h4>Add TimeSheet Details</h4>
+                    <button type="button" class=" btn btn-primary" (click)="addTimeSheetDetail()"><i class="fa-solid fa-circle-plus"></i> Time-Sheet Details</button>
+                </div>
+                <div class="card-body">
+                    <div class="row" *ngFor="let detail of timeSheetDetails.controls; let i = index" [formGroupName]="i">
+                        <div class="col-4 form-Group">
+                            <label>Task Assigned</label>
+                            <select formControlName="TaskAssignmentId" (change)="Gethours(i)" class="form-control" required>
+                                <option value="">Select Option</option>
+                                <option *ngFor="let item of taskAssingmentList |keyvalue" value={{item.key}}>{{taskList[item.value]}}</option>
+                            <!-- <input type="number" class="form-control"  formControlName="TaskAssignmentId" required> -->
+                            </select>
+                        </div>
+                        <div class="col-4 form-Group">
+                            <label>Period:</label>
+                            <input type="text" class="form-control"  formControlName="Period" required>
+                        </div>
+                        <div class="col-2 form-Group">
+                            <label>Hours:</label>
+                            <input type="number" class="form-control" [(ngModel)]="hourBilled[taskAssingmentList[taskAssingmentId[i]]]" formControlName="Hours" required>
+                        </div>
+                        <div class="col mt-auto form-Group">
+                        <button type="button" class="btn text-danger" (click)="removeTimeSheetDetail(i)"><i class="fa-solid fa-circle-minus"></i> Remove</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <input type="submit" class=" mt-3 col-3 btn btn-success"  >
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- List Of TimeSheet Masters -->
+<div id="ListOfTimeSheets" class="mt-3">
+    <div class="card p-2">
+        <div class="card-header"><h2>List Of Time-Sheet</h2></div>
+        <div class="card-body mt-2 mb-2" style="height: 500px;overflow: auto;">
+            <table class="table table-bordered">
+                <thead class="bg-primary">
+                    <tr class="table-primary">
+                        <td>From Date</td>
+                        <td>To Date</td>
+                        <td>Total Hours</td>
+                        <td>TimeSheet Status</td>
+                        <td>Comments</td>
+                        <td>Created On</td>
+                        <td>Created By</td>
+                        <td>Last Modified By</td>
+                        <td>Last Modified On</td>
+                        <td>Action</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of TimeMasterData">
+                        <td class="small">{{item.fromDate | date}}</td>
+                        <td class="small">{{item.toDate | date}}</td>
+                        <td>{{item.totalHours}}</td>
+                        <ng-container>
+                            <td class="h6" [class.text-danger] = "timeSheetStatusMain[item.timeSheetStatus] == 'Rejected'" 
+                                [class.text-success] = "timeSheetStatusMain[item.timeSheetStatus] == 'Approved'"
+                                [class.text-primary] = "timeSheetStatusMain[item.timeSheetStatus] == 'Pending'"
+                                [class.text-warning] = "timeSheetStatusMain[item.timeSheetStatus] == 'InProgress'">
+                                {{timeSheetStatusMain[item.timeSheetStatus]}}</td>
+                        </ng-container>
+                        <td>{{item.comments}}</td>
+                        <td>{{item.createdOn | date}}</td>
+                        <td>{{userList[item.createdBy]}}</td>
+                        <td>{{userList[item.lastModifiedBy]}}</td>
+                        <td>{{item.lastModifiedOn | date}}</td>
+                        <td style="display: flex;gap: 6px;">
+                            <button class="btn border-0" [class.disabled]="timeSheetStatusMain[item.timeSheetStatus]=='Completed' || timeSheetStatusMain[item.timeSheetStatus]=='Approved'" (click)="open(modalContent,item.id)" value={{item.id}}><i class="fa-solid fa-pen-to-square fa-lg"></i></button>
+                            <button class="btn border-0" [class.disabled]="timeSheetStatusMain[item.timeSheetStatus]=='Approved'" (click)="open(deleteModalContent,item.id)" value={{item.id}}><i class="fa-solid fa-trash text-danger fa-lg "></i></button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<!-- Update/Edit TimeSheet using Modal -->
+<ng-template #modalContent let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title">Edit Task</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <!-- {{singleTimeSheetMaster.id}} -->
+    <div class="modal-body">
+        <form #EditTimeSheet="ngForm" class="row" (submit)=" modal.dismiss()">
+            <div for="hidden">
+                <input type="hidden" name="id" [(ngModel)]="singleTimeSheetMaster.id" >
+                <input type="hidden" name="createdBy" [(ngModel)]="singleTimeSheetMaster.createdBy" />
+                <input type="hidden" name="createdOn" [(ngModel)]="singleTimeSheetMaster.createdOn" />
+                <input type="hidden" name="lastModifiedBy"  value="" ngModel/>
+                <input type="hidden" name="lastModifiedOn" value="" ngModel/>
+            </div>
+            <div class="col-6 form-Group">  
+                <label>From Date:</label>
+                <input class="form-control" type="datetime-local" [(ngModel)]="singleTimeSheetMaster.fromDate" name="fromDate" >
+            </div> 
+            <div class="col-6 form-Group">  
+                <label>To Date:</label>
+                <input class="form-control" type="datetime-local" [(ngModel)]="singleTimeSheetMaster.toDate" name="toDate" >
+            </div>
+            <div class="col-6 form-Group">  
+                <label>Total Hours : </label>
+                <input class="form-control" oninput="this.value = this.value.replace(/[^0-9.]/g, '')" type="text" [(ngModel)]="singleTimeSheetMaster.totalHours" name="totalHours">
+            </div>
+            <div class="col-6 form-Group">  
+                <label>Time-Sheet Status </label>
+                <select ngModel name="timeSheetStatus" class="form-control" [(ngModel)]="singleTimeSheetMaster.timeSheetStatus" >
+                    <option value="" disabled >Select Status </option>
+                    <ng-container *ngFor="let item of timeSheetStatus |keyvalue" >
+                        <option *ngIf="item.key =='1'"  value={{item.key}}>{{item.value}}</option>
+                    </ng-container>
+                </select>
+            </div>
+            <div class="form-Group">  
+                <label>Comments : </label>
+                <textarea class="form-control" type="text" [(ngModel)]="singleTimeSheetMaster.comments" name="comments"></textarea>
+            </div>
+            <div class="card" style="margin: 10px; width:470px;">
+                <div class="card-header">
+                    <h5 >Time-Sheet Details</h5>
+                </div>
+                <table class="card-body table">
+                    <thead>
+                        <tr>
+                            <td>Task Assigned</td>
+                            <td>Period</td>
+                            <td>Hours</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of singleTimeSheetMaster.timeSheetDetails">
+                           <td>{{taskList[taskAssingmentList[item.taskAssignmentId]]}}</td>
+                            <td>{{item.period}}</td>
+                            <td>{{item.hours}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer d-flex justify-content-between">
+                <button type="submit"  class="btn btn-success" (click)="EditTimeSheetMaster(EditTimeSheet.value); modal.dismiss();">Save Task</button>
+                <button type="button" class="btn btn-secondary" (click)="modal.close('Close click')">Close</button>
+            </div>
+        </form>
+    </div>
+</ng-template>
+
+
+
+<!-- Delete TimeSheet using Modal  -->
+<ng-template #deleteModalContent let-modal2>
+    <div class="modal-header">
+        <h5 class="modal-title">Are you sure, you want to delete this task ?</h5>
+        <button type="button" class="close" aria-label="Close" (click)="modal2.dismiss()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <!-- {{singleTimeSheetMaster.id}} -->
+      <div class="modal-body">
+            <table class="table">
+                <tr>
+                    <td>Created By: </td>
+                    <td>{{userList[singleTimeSheetMaster.createdBy]}}</td>
+                </tr>
+                <tr>
+                    <td>Created On:</td>
+                    <td>{{singleTimeSheetMaster.createdOn |date}}</td>
+                </tr>
+                <tr>
+                    <td>Last Modified By:</td>
+                    <td>{{userList[singleTimeSheetMaster.lastModifiedBy]}}</td>
+                </tr>
+                <tr>
+                    <td>Last Modified On:</td>
+                    <td>{{singleTimeSheetMaster.lastModifiedOn |date}}</td>
+                </tr>
+                <tr>
+                    <td>From Date:</td>
+                    <td>{{singleTimeSheetMaster.fromDate|date}}</td>
+                    </tr>
+                <tr>
+                    <td>To Date:</td>
+                    <td>{{singleTimeSheetMaster.toDate|date}}</td>
+                </tr>
+                <tr>
+                    <td>Total Hours:</td>
+                    <td>{{singleTimeSheetMaster.totalHours}}</td>
+                </tr>
+                <tr>
+                    <td>Time-Sheet Status:</td>
+                    <td>{{timeSheetStatusMain[singleTimeSheetMaster.timeSheetStatus]}}</td>
+                </tr>
+                <tr>
+                    <td>Comments:</td>
+                    <td>{{singleTimeSheetMaster.comments}}</td>
+                </tr>
+                <tr > 
+                    <td colspan="2">            
+                        <h5>TimeSheet Details</h5>
+                        <table class="table table-bordered table-striped mt-1">
+                            <thead >
+                                <tr>
+                                    <td>Task Assigned</td>
+                                    <td>Period</td>
+                                    <td>Hours</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of singleTimeSheetMaster.timeSheetDetails">
+                                    <td>{{taskList[item.taskAssignmentId]}}</td>
+                                    <td>{{item.period}}</td>
+                                    <td>{{item.hours}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                     </td>   
+                </tr>
+            </table>
+              <div class="modal-footer d-flex justify-content-between">
+                  <button type="submit"  class="btn btn-danger" (click)="DeleteTimeSheetMaster(singleTimeSheetMaster.id);modal2.close()">Delete TimeSheet</button>
+                  <button type="button" class="btn btn-secondary" (click)="modal2.close('Close click')">Close</button>
+              </div>
+          
+      </div>
+</ng-template>

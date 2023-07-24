@@ -1,0 +1,32 @@
+    <div class="card">
+      <div class="card-header">
+        <h3>Edit Project</h3>
+      </div>
+    <div class="card-body">
+  <form [formGroup]= "projectForm"(ngSubmit)="editProject(projectForm.value)" class= "container mt-5">
+   <div class="row">
+    <div class="col-6">
+      <div class="form-group">
+      <input type="hidden" formControlName="Id"   [(ngModel)]="projectdata.id"  value={{projectdata.id}}>
+      </div>    
+      <div class="form-group">
+        <label for="projectName">Project Name:</label>
+        <input type="text" id="projectName"  class="form-control" formControlName ="projectName" [(ngModel)]="projectdata.projectName" [class.is-invalid]="projectForm.controls.projectName.invalid && projectForm.controls.projectName.touched"  required >    
+        <span *ngIf="projectForm.controls.projectName.invalid && projectForm.controls.projectName.touched " class="text-danger"> Project Name is Required</span>
+      </div>
+      <div class="form-group">
+        <label for="startDate">Start Date:</label>
+        <input type="datetime-local" id="startDate" class="form-control" formControlName ="startDate"  name="startDate" [(ngModel)]="projectdata.startDate" [class.is-invalid]="projectForm.controls.startDate.invalid && projectForm.controls.startDate.touched"  required >
+        <span *ngIf="projectForm.controls.startDate.invalid && projectForm.controls.startDate.touched " class="text-danger">StartDate is Required</span>
+      </div>
+      <div class="form-group">
+        <label for="endDate">End Date:</label>
+        <input type="datetime-local" id="endDate" class="form-control" formControlName ="endDate" name="endDate" [(ngModel)]="projectdata.endDate" [class.is-invalid]="projectForm.controls.endDate.invalid && projectForm.controls.endDate.touched"  required >
+        <span *ngIf="projectForm.controls.endDate.invalid && projectForm.controls.endDate.touched " class="text-danger">EndDate is Required</span>
+      </div>
+    </div>
+  </div>
+  <br>
+  <button type="submit"[class.disabled]="!projectForm.valid" class="btn btn-primary">Edit Project</button>
+  </form>
+  </div>

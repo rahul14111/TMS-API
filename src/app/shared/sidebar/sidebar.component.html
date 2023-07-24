@@ -1,0 +1,36 @@
+
+<div class="" *ngIf="checkLogin()">
+    <div class="row" style="height: 635px;">
+        <div class="sidebar " *ngIf="role=='Developers'" style="overflow: auto;" >
+            <div class="d-flex justify-content-center row col-12 m-0">
+                <img src="/assets/images/brand.png" alt="TimeSheet Management System" class="mt-3" width="200px" style="filter: drop-shadow(0px 0px 5px  rgba(92, 85, 85, 0.952)) !important;"/>
+            </div>
+            <ul class="p-0 mt-3">
+              <!-- Place Menu Items For Developers -->
+              <li class="list-group-item sidebar-item mt-2 p-1"><a routerLinkActive="active"  routerLink="dev-dashboard" class="nav-link rounded-pill">Dashboard</a></li>
+                <li class="list-group-item sidebar-item mt-2 p-1"><a routerLinkActive="active" routerLink="dev-Tasks" class="nav-link rounded-pill">Tasks</a></li>
+                <li class="list-group-item sidebar-item mt-2 p-1"><a routerLinkActive="active" routerLink="TimeSheetCreate" class="nav-link rounded-pill ">Add Time-Sheet</a></li>
+                <li class="list-group-item sidebar-item mt-2 p-1"><a routerLinkActive="active" routerLink="project-list" class="nav-link rounded-pill ">Project List</a></li>
+            </ul>
+        </div>
+        <div class="sidebar"  *ngIf="role =='Managers'"  style="overflow: auto;" >
+            <div class="d-flex justify-content-center row col-12 m-0">
+                <img src="/assets/images/brand.png" alt="TimeSheet Management System" class="mt-3" width="200px" style="filter: drop-shadow(0px 0px 5px  rgba(92, 85, 85, 0.952)) !important;"/>
+            </div>
+            <ul class="p-0 mt-3">
+                <!-- Place Menu Items For Managers -->
+                <li class="list-group-item sidebar-item mt-2 p-1"><a routerLinkActive="active" routerLink="dashboard" class="nav-link rounded-pill">Dashboard</a></li>
+                <li class="list-group-item sidebar-item mt-2 p-1"><a routerLinkActive="active" routerLink="TimeSheetApproval" class="nav-link rounded-pill ">List Of Time-Sheet</a></li>
+                <li class="list-group-item sidebar-item mt-2 p-1"><a routerLinkActive="active" routerLink="Tasks" class="nav-link rounded-pill ">Tasks</a></li>
+                <li class="list-group-item sidebar-item mt-2 p-1"><a routerLinkActive="active" routerLink="TaskAssignment" class="nav-link rounded-pill ">Task Assignment</a></li>
+                 <li class="list-group-item sidebar-item mt-2 p-1"><a routerLinkActive="active" routerLink="project-add" class="nav-link rounded-pill ">Add Project</a></li>
+                 <li class="list-group-item sidebar-item mt-2 p-1"><a routerLinkActive="active" routerLink="project-list" class="nav-link rounded-pill ">Project List</a></li>
+                <li class="list-group-item sidebar-item mt-2 p-1"><a routerLinkActive="active" routerLink="createaccount" class="nav-link rounded-pill ">Add User</a></li>
+                <li class="list-group-item sidebar-item mt-2 p-1"><a routerLinkActive="active" routerLink="getAllUser" class="nav-link rounded-pill ">Lists Of Users</a></li>
+            </ul>
+        </div>
+        <!-- <div class="col-9">
+            <router-outlet></router-outlet>
+        </div> -->
+    </div>
+</div>

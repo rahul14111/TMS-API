@@ -1,0 +1,70 @@
+
+<div class="d-flex justify-content-center">
+    <button class="btn btn-success" (click)="convertToPdf()"><i class="fa-solid fa-download  me-2"></i>Invoice PDF</button>
+</div>
+<hr class="mt-3 mb-3" />
+<div class="InvoiceView mb-3"  id="InvoiceView">
+<header>
+    <h1>Invoice</h1>
+    <address>
+        <h5>Conversoft Solutions</h5>
+        <p> 712-714, NAVRATNA CORPORATE PARK B-Wing, </p>
+        <p>Iscon, Bopal Rd, Ahmedabad, </p>
+        <p>Gujarat 380058</p>
+    </address>
+    <span><img alt="" src=""><input type="file" accept="image/*"></span>
+</header>
+<article>
+    <h1 class="text-dark">Recipient</h1>
+    <table class="meta">
+        <tr>
+            <th><span>Invoice Id #</span></th>
+            <td><span>{{invoiceId}}</span></td>
+        </tr>
+        <tr>
+            <th><span>Category</span></th>
+            <td><span>{{category}}</span></td>
+        </tr>
+        <tr>
+            <th><span>Date</span></th>
+            <td><span>{{invoiceDate | date}}</span></td>
+        </tr>
+        <tr>
+            <th><span>Amount Due</span></th>
+            <td><span id="prefix">$</span><span>{{totalAmount}}</span></td>
+        </tr>
+    </table>
+    <table class="inventory">
+        <thead>
+            <tr>
+                <th><span>Task</span></th>
+                <th><span>Task By</span></th>
+                <th><span>Rate Per Hour</span></th>
+                <th><span>Hours Billed</span></th>
+                <th><span>Total Charge</span></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let detail of invoiceDetails">
+                <td class="text-center"><span>{{taskList[taskAssingmentList[detail.taskAssignmentId]]}}</span></td>
+                <td class="text-center" ><span> {{userList[taskCreatedBy[detail.taskAssignmentId]]}} </span></td>
+                <td class="text-center" ><span data-prefix>$</span ><span>{{detail.ratePerHour}}</span></td>
+                <td class="text-center" ><span>{{detail.hoursBilled}}</span></td>
+                <td class="text-center" ><span data-prefix>$</span><span>{{detail.hoursBilled * detail.ratePerHour}}</span></td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="balance">
+        <tr>
+            <th><span>Total Amount</span></th>
+            <td><span data-prefix>$</span><span>{{totalAmount}}</span></td>
+        </tr>
+    </table>
+</article>
+<aside>
+    <h1><small>Additional Notes</small></h1>
+    <div>
+        <p>For any furthur information please contact manager</p>
+    </div>
+</aside>
+</div>

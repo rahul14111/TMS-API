@@ -1,0 +1,27 @@
+.sidebar{
+    background-color: #4379db;
+    color: white;
+    height: 100%;
+    width: calc(100% / 6);;
+    top: 0;
+    left: 0;
+    position: fixed;
+}
+
+.sidebar-item{
+    text-align: center;
+    padding: 0;
+    margin: 5px;
+    font-weight: bolder;
+}
+
+li>a{
+    padding: 5px 0px;
+}
+
+.active{
+    border-radius: 25px;
+    color: black;
+    background-color: aliceblue;
+    box-shadow: 0px 0px 7px 0.25px rgb(104, 104, 104);
+}

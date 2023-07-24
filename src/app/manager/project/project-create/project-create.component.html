@@ -1,0 +1,44 @@
+
+  <div class="card ">
+    <div class="card-header">
+      <h3>Create Project</h3>
+    </div>
+  <div class="card-body">
+<form [formGroup]= "projectForm"(ngSubmit)="createProject(projectForm.value)" class= "container mt-5">
+ <div class="row">
+  <div class="col-6">
+    <div class="form-group">
+      <label for="projectName">Project Name:</label>
+      <input type="text" id="projectName" placeholder="ProjectName" name="projectName"  class="form-control" formControlName ="projectName" [class.is-invalid]="projectForm.controls.projectName.invalid && projectForm.controls.projectName.touched"  required >    
+      <span *ngIf="projectForm.controls.projectName.invalid && projectForm.controls.projectName.touched " class="text-danger"> Project Name is Required</span>
+    </div>
+    <div class="form-group">
+      <label for="startDate">Start Date:</label>
+      <input type="date" id="startDate" class="form-control" formControlName ="startDate"[class.is-invalid]="projectForm.controls.startDate.invalid && projectForm.controls.startDate.touched"  required >
+      <span *ngIf="projectForm.controls.startDate.invalid && projectForm.controls.startDate.touched " class="text-danger">StartDate is Required</span>
+    </div>
+    <div class="form-group">
+      <label for="endDate">End Date:</label>
+      <input type="date" id="endDate" class="form-control" formControlName ="endDate"[class.is-invalid]="projectForm.controls.endDate.invalid && projectForm.controls.endDate.touched"  required >
+      <span *ngIf="projectForm.controls.endDate.invalid && projectForm.controls.endDate.touched " class="text-danger">EndDate is Required</span>
+    </div>
+  </div>
+ <div class="col-6">
+  <div class="container">
+    <div class="row mt-5">
+      <div class="">
+        <div class="mb-3">
+          <label  for="formFile"  class="form-label">Upload File :</label>
+          <input class="form-control" type="file" formControlName ="imageFile" (change)="onFileChanged($event)"  accept=".jpeg,.png,.pdf" [class.is-invalid]="projectForm.controls.imageFile.invalid && projectForm.controls.imageFile.touched"  required >
+         <span *ngIf="projectForm.controls.imageFile.invalid && projectForm.controls.imageFile.touched " class="text-danger">File is Required</span>
+       
+        </div>
+      </div>
+    </div>
+   </div>
+  </div>
+</div>
+<br>
+<button type="submit" [class.disabled]="projectForm.invalid"class="btn btn-primary" ><a [routerLink]="'/project-list'"></a>Create Project</button>
+</form>
+</div>

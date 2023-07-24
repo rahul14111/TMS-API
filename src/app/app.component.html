@@ -1,0 +1,16 @@
+<div class="container-fluid" *ngIf="checkLogin()">
+    <div class="row">
+        <div class="col-2" style="overflow:unset;" >
+            <app-sidebar></app-sidebar>
+        </div>
+        <div class="col-10">
+            <app-header></app-header>
+            <ng-container style="overflow: scroll;">
+                <router-outlet></router-outlet>
+            </ng-container>
+        </div>
+    </div>
+</div>
+<div *ngIf="!checkLogin()">
+    <router-outlet></router-outlet>
+</div>

@@ -1,0 +1,112 @@
+<!-- List Of Project -->
+<div class="card">
+  <div class="card-header">
+    <h3>Project List</h3>
+  </div>
+    <div class="card-body">
+      <ul class="list-group">
+        <li class="list-group-item">
+          <form class="form-Group">
+            <table class="table table-striped">
+            <thead class="bg-success">
+              <tr class="table-primary">   
+                 <th scope="col">ProjectsName</th>
+                <th scope="col">StartDate</th>
+                <th scope="col">EndDate</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr  *ngFor="let item of projects"> 
+                <td>{{item.projectName}}</td>
+                <td>{{item.startDate |date}}</td>
+                <td>{{item.endDate |date}}</td>
+                <td>
+                <button type="button" class="btn btn-success" data-toggle="modal"  value={{item.id}} *ngIf="role !== 'Developers'"><a class="nav-link" [routerLink]="['/project-edit',item.id]">Edit</a></button> 
+                <button type="button" class="btn btn-danger ms-2" (click)="open(DeleteProject,item.id)" *ngIf="role !== 'Developers'">Delete</button>
+                <button type="button" class="btn btn-primary ms-2" (click)="open(ViewProject,item.id); listProjectDocuments(item.id)" >View</button>
+              </td>
+              </tr>
+            </tbody>
+          </table>
+          </form>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+<!-- ViewProject Modal -->
+<ng-template #ViewProject let-modal>
+  <div class="modal-header">
+      <h5 class="modal-title">View Project and Project Documents</h5>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+      <span aria-hidden="true">&times;</span>
+      </button>
+  </div>
+  <div class="modal-body">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <td>Document Name</td>
+          <td>CreatedBy</td>
+          <td>CreatedOn</td>
+          <td>LastModifiedBy</td>
+          <td>ModifiedOn</td>
+          <td>View File</td>
+        </tr>
+      </thead>
+      <tbody>
+          <tr *ngFor="let doc of projectDetails">
+            <td>{{doc.documentName}}</td>
+            <td>{{userList[doc.createdBy]}}</td>
+            <td>{{doc.createdOn | date}}</td>
+            <td>{{userList[doc.lastModifiedBy]}}</td>
+            <td>{{doc.modifiedOn | date}}</td>
+            <td><a class="btn btn-info" (click)="NavigateToFile(doc.documentUrl)" target="_blank" >View File</a></td>
+          </tr>
+      </tbody>
+    </table>
+   </div>
+  <div class="modal-footer d-flex justify-content-between">
+      <form (submit)="modal.dismiss()">
+          <input type="hidden"  name="Id" #DeleteProjectId ngModel={{project.id}} />
+      </form>
+      <button type="button" class="btn btn-secondary" (click)="modal.close('Close click')">Close</button>
+  </div>
+ 
+  </ng-template>
+
+  <!--Delete Project modal  -->
+  <ng-template #DeleteProject let-modal2>
+    <div class="modal-header">
+        <h5 class="modal-title"><img src="https://imgur.com/Kh1gwTq.png">Are you sure, delete this project ?</h5>
+        <button type="button" class="close" aria-label="Close" (click)="modal2.dismiss()">
+        <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <table>
+            <tr>
+                <td>Project Name :</td>
+                <td>{{project.projectName}} </td>
+            </tr>
+            <tr><td>
+                Start Date :</td>
+                <td>{{project.startDate | date}}
+            </td></tr>
+            <tr><td>
+               End Date :</td>
+                <td>{{project.endDate | date}}
+            </td></tr>   
+        </table>
+    </div>
+    <div class="mt-auto form-Group">
+    </div>
+    <div class="modal-footer d-flex justify-content-between">
+        <form (submit)="modal2.dismiss()">
+            <input type="hidden"  name="Id" #DeleteProjectId ngModel={{project.id}} />
+            <button type="submit"  class="btn btn-danger" (click)="deleteProject(DeleteProjectId.value)">Delete Project</button>
+        </form>
+        <button type="button" class="btn btn-secondary" (click)="modal2.close('Close click')">Close</button>
+    </div>
+    </ng-template>

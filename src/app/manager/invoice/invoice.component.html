@@ -1,0 +1,61 @@
+<div class="container bg-light right-0 card">
+    <div class="card-header">
+        <div><h2>Generate Invoices</h2></div>
+    </div>
+    <div class="card-body">
+        <form [formGroup]="invoiceForm" (ngSubmit)="OnSubmit(invoiceForm.value)" class="row">
+            <div class="form-Group col-6">
+                <label>Category</label>
+                <select formControlName="categoryId" class="form-control">
+                    <option value="" >Select options</option>
+                    <option *ngFor="let category of categoryList |keyvalue" value={{category.key}}>{{category.value}}</option>
+                </select>
+                <small class="text-danger" *ngIf="!(invoiceForm.controls.categoryId.valid || invoiceForm.controls.categoryId.untouched )">Category should be Selected</small>
+            </div>
+            <div class="form-Group col-6">
+                <label>Total Amount</label>
+                <input formControlName="totalAmount" type="text"  [(ngModel)]="totalAmountCalc" readonly class="form-control" style="font-weight: 800;"/>
+            </div>
+            <div class="from-Group mt-4"> 
+                <div formArrayName="invoiceDetailRequestDTO" class="card">
+                    <div class="card-header d-flex justify-content-between"><h4> Invoices Details</h4>
+                        <button type="button" class=" btn btn-primary" (click)="addInvoiceDetail()"><i class="fa-solid fa-circle-plus fa-lg me-2"></i> Invoice Details</button>
+                    </div>
+                    <div class="card-body">
+                        <div class="row" *ngFor="let detail of invoiceDetailRequestDTO.controls; let i = index" [formGroupName]="i">
+                            <div class="col-4 form-Group">
+                                <label>Task Assigned</label>
+                                <select formControlName="taskAssignmentId" class="form-control" (change)="Gethours(i)" required>
+                                    <option value="" selected >Select Option</option>
+                                    <option *ngFor="let item of taskAssingmentList | keyvalue " value={{item.key}}>{{taskList[item.value]}}</option>
+                                <!-- <input type="number" class="form-control"  formControlName="TaskAssignmentId" required> -->
+                                </select>
+                            </div>
+                            <div class="col-4 form-Group">
+                                <label>Hours Billed:</label>
+                                <input type="number" readonly class="form-control" [(ngModel)]="hourBilled[taskAssingmentId[i]]"  formControlName="hoursBilled" required>
+                            </div>
+                            <div class="col-2 form-Group" *ngIf="i==0">
+                                <label>Rate Per Hour:</label>
+                                <input type="number" class="form-control" oninput="this.value = this.value.replace(/[^0-9.]/g, '')"  formControlName="ratePerHour" required>
+                            </div>
+                            
+                            <div class="col mt-auto form-Group">
+                            <button type="button" class="btn" (click)="removeInvoiceDetail(i)"><i class="fa-solid fa-circle-minus fa-lg text-danger "></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex justify-content-between mt-3">
+                <div>
+                    <button type="button" class="btn btn-info"(click)="CalculateAmount()" >Calculate Amount</button>
+                </div>
+                <div>
+                    <button type="submit" class="btn btn-success" *ngIf="invoiceForm.controls.totalAmount.value!==0 && invoiceForm.valid">Generate invoice</button>
+                    <button class="btn btn-dark ms-2" (click)="invoiceForm.reset()">Reset</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,28 @@
+/* You can add global styles to this file, and also import other style files */
+body{
+    background-color:rgb(193, 206, 214);
+}
+@import '~@fortawesome/fontawesome-free/css/all.min.css';
+
+.card-header{
+    text-align: center;
+}
+
+.card{
+    border-radius: 20px;
+    padding: 15px;
+    margin-bottom: 2px;
+}
+
+.card-header{
+    border-radius: 20px !important; 
+    box-shadow: 0 0 7px 0.25px rgb(211, 208, 208);
+}
+
+.btn{
+    border-radius: 20px;
+}
+
+.table{
+    background: transparent !important;
+}
